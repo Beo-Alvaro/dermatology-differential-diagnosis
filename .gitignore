@@ -1,0 +1,22 @@
+# Credentials: never commit a password (pgpass.conf lives in %APPDATA%, not here)
+.env
+*.pgpass
+pgpass.conf
+
+# Office lock / temp files (created while a workbook is open)
+~$*
+*.tmp
+
+# Power BI: commit the .pbix itself, not caches or local settings
+# (these paths apply if the report is ever saved as a .pbip project)
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Editor and OS clutter
+.vscode/
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Claude Code local settings
+.claude/settings.local.json

@@ -1,0 +1,8 @@
+# Keep the raw dataset byte-for-byte identical to the Kaggle download:
+# no line-ending conversion on checkout or commit.
+data/*.csv -text
+
+# Binary report and workbook files: never diff or merge as text.
+*.pbix binary
+*.xlsx binary
+*.png  binary
