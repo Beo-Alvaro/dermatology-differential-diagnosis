@@ -172,6 +172,8 @@ Done:
     owner approved Python for this one task), then calculated in real Excel.
   - The file itself is plain Excel. `excel/BUILD_GUIDE.md` explains every
     formula.
+  - Lookups use XLOOKUP (owner's choice, for readability), so the workbook
+    needs Excel 2021/365. Median uses a single-IF `MEDIAN(IF(...))`.
   - Gotcha for future edits: a whole-table reference must be stored as
     `derm[]` (Excel shows `derm`). Written bare, it gives #NAME?.
 

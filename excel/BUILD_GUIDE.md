@@ -4,6 +4,8 @@
 
 Open it and go to **tieout**. Cell C4 must say **PASS**.
 
+**Needs Excel 2021 or Microsoft 365** (it uses XLOOKUP, MINIFS and MAXIFS). Older Excel shows `#NAME?`.
+
 ## Sheets
 
 | Sheet | What it shows |
@@ -25,16 +27,16 @@ The data is an **Excel Table** named `derm` (Insert → Table). That allows **st
 
 | Column | Formula | What it does |
 |---|---|---|
-| `disease` | `=INDEX(diseases[disease_name], MATCH([@class], diseases[class], 0))` | Looks up the name for the class code. MATCH finds the row and INDEX returns the name; this is the classic pre-XLOOKUP lookup |
+| `disease` | `=XLOOKUP([@class], diseases[class], diseases[disease_name])` | "Look up this row's class in the class column of the lookup table and return the name" |
 | `age_clean` | `=IF(OR([@age]="?", [@age]=0), "", [@age])` | Blanks the 8 `?` ages and the 1 age of 0, the same decision as `sql/03_clean.sql`. That gives 9 unknown ages |
-| `age_band` | `=IF([@age_clean]="", "Unknown", LOOKUP([@age_clean], age_bands[min_age], age_bands[age_band]))` | LOOKUP finds the largest band start ≤ the age, so 37 → "30-44" |
+| `age_band` | `=IF([@age_clean]="", "Unknown", XLOOKUP([@age_clean], age_bands[min_age], age_bands[age_band], , -1))` | Match mode `-1` means "exact match, or else the next smaller value". So 37 finds the band starting at 30 and returns "30-44". The empty argument before it is the optional "if not found" value |
 
 ### `mix`: Q1 profile
 
 | Number | Formula pattern | Note |
 |---|---|---|
 | Patients | `=COUNTIFS(derm[class], $A5)` | Counts rows where class = the code in column A |
-| Median age | `{=MEDIAN(IF(derm[class]=$A5, IF(derm[age_clean]<>"", derm[age_clean])))}` | An **array formula**: IF builds a list of this disease's known ages and MEDIAN takes the middle. There's no MEDIANIFS in Excel, so this is the standard workaround. The `{ }` braces mark it as an array formula |
+| Median age | `{=MEDIAN(IF(derm[class]=$A5, derm[age_clean]))}` | An **array formula**. IF returns each age where the class matches and FALSE elsewhere; MEDIAN skips FALSE and the blank unknown ages and takes the middle value. There's no MEDIANIFS in Excel, so this is the standard workaround. The `{ }` braces mark it as an array formula |
 | Min / max age | `=MINIFS(derm[age_clean], derm[class], $A5)` | MINIFS/MAXIFS skip the blank ages, so unknowns never count as 0 |
 | Unknown age | `=COUNTIFS(derm[class], $A5, derm[age_clean], "")` | The `""` criterion counts blanks |
 | Family history % | `=AVERAGEIFS(derm[family_history], derm[class], $A5)` | The column is 0/1, so its average *is* the rate |
@@ -44,21 +46,20 @@ The age band grid below uses `=COUNTIFS(derm[class], $A16, derm[age_band], C$15)
 ### `prevalence`: one formula fills the whole grid
 
 ```excel
-=COUNTIFS(derm[class], E$4, INDEX(derm, 0, MATCH($B5, derm[#Headers], 0)), ">=1")
+=COUNTIFS(derm[class], E$4, XLOOKUP($B5, derm[#Headers], derm), ">=1")
  / COUNTIFS(derm[class], E$4)
 ```
 
 Read it inside out:
-1. `MATCH($B5, derm[#Headers], 0)` finds which column of the table has the header in B5 (e.g. `clubbing_rete_ridges` → column 21).
-2. `INDEX(derm, 0, 21)` returns that **whole column**. A row number of 0 means "all rows".
-3. The first COUNTIFS counts patients whose class is E4 **and** whose score is ≥ 1. The second counts all patients in class E4. Dividing gives the prevalence.
-4. `$B5` locks column B and `E$4` locks row 4, so the same formula can be filled right across the 6 diseases and down the 32 findings.
+1. `XLOOKUP($B5, derm[#Headers], derm)` looks for the name in B5 (e.g. `clubbing_rete_ridges`) along the table's **header row** and returns the **whole column** under it. Searching sideways across headers and returning a full column is something VLOOKUP can't do.
+2. The first COUNTIFS counts patients whose class is E4 **and** whose score in that column is ≥ 1. The second counts all patients in class E4. Dividing gives the prevalence.
+3. `$B5` locks column B and `E$4` locks row 4, so the same formula can be filled right across the 6 diseases and down the 32 findings.
 
-Column B uses the **CSV header spelling** (e.g. `munro_microabcess`), because MATCH looks up those exact names.
+Column B uses the **CSV header spelling** (e.g. `munro_microabcess`), because XLOOKUP looks up those exact names.
 
 ### `scores`: EDA of the 0-3 scale
 
-`=COUNTIF(INDEX(derm, 0, MATCH($B5, derm[#Headers], 0)), E$4)` counts patients at score 0, 1, 2 or 3. Each row must total 366, and a red fill means it doesn't. An amber **max** marks an attribute that never reaches 3: family history (0/1 by design) and eosinophils in the infiltrate (max 2, real data, not an error).
+`=COUNTIF(XLOOKUP($B5, derm[#Headers], derm), E$4)` counts patients at score 0, 1, 2 or 3. Each row must total 366, and a red fill means it doesn't. An amber **max** marks an attribute that never reaches 3: family history (0/1 by design) and eosinophils in the infiltrate (max 2, real data, not an error).
 
 ### `tieout`: proving Excel = SQL
 
@@ -74,4 +75,5 @@ Column B uses the **CSV header spelling** (e.g. `munro_microabcess`), because MA
 
 - **Why Excel and SQL?** Two independent tools agreeing on 224 numbers is strong evidence that the pipeline didn't drop or distort data.
 - **Why `age_clean` instead of editing `age`?** The raw values stay untouched and the cleaning rule is visible, the same principle as staging → clean in SQL.
+- **Why XLOOKUP, not VLOOKUP?** VLOOKUP needs a hardcoded column number (`VLOOKUP(x, table, 2, FALSE)`), which silently breaks if a column is inserted. It can only search the leftmost column, and it defaults to approximate match. XLOOKUP names the lookup and return columns directly, and it defaults to exact match. Before XLOOKUP, analysts used `INDEX(return_col, MATCH(x, lookup_col, 0))` for the same reasons. That still works in every Excel version, which is the trade-off: this workbook needs Excel 2021 or 365.
 - **Trade-off:** the pasted SQL values are a snapshot. If the pipeline changes, re-run the query and paste again.
