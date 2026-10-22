@@ -67,6 +67,8 @@ psql -U postgres -d derm -f sql/00_run_all.sql
 
 All 14 checks must say PASS. If any check fails, the script raises an error and exits non-zero.
 
+**Independent check in Excel:** `excel/dermatology_eda.xlsx` recomputes the prevalence grid and the Q1 profile from the raw CSV using only Excel formulas (COUNTIFS, INDEX/MATCH, MEDIAN(IF)). All 224 prevalence cells match SQL exactly, and its `tieout` sheet says PASS. See [excel/BUILD_GUIDE.md](excel/BUILD_GUIDE.md).
+
 ---
 
 ## Metric definitions
