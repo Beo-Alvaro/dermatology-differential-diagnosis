@@ -1,0 +1,39 @@
+table dim_disease
+	lineageTag: b539b75f-28ce-4e0a-9b37-9fd6a83c8727
+
+	column disease_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 0755309b-eb46-4337-af2c-98d94429b59a
+		summarizeBy: none
+		sourceColumn: disease_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_name
+		dataType: string
+		lineageTag: 4570a22d-60f4-4e6c-845b-0b0b4c3de3c3
+		summarizeBy: none
+		sourceColumn: disease_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_abbrev
+		dataType: string
+		lineageTag: 63498d76-a76e-4715-80e8-953f0150f6ef
+		summarizeBy: none
+		sourceColumn: disease_abbrev
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_disease = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("localhost", "derm"),
+				  #"Navigation 1" = Source{[Schema = "analytics", Item = "dim_disease"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

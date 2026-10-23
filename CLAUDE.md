@@ -51,6 +51,24 @@ project: don't build classifiers. The goal is to explain the data, not predict i
   `%APPDATA%\postgresql\pgpass.conf` (outside the repo), so psql doesn't
   prompt. Never commit a password. Use `psql -w` to fail fast instead of prompting.
 - Power BI Desktop connects to `localhost`, database `derm`, in Import mode.
+- Power BI Modeling MCP server (Microsoft, from the VS Code extension
+  `analysis-services.powerbi-modeling-mcp` v1.0.0) is registered in the
+  project `.mcp.json`. That file is gitignored, because its path is
+  machine-specific.
+  - It runs with `--start --accept-eula`. The owner accepted the licence on
+    2026-10-23.
+  - Update the path when the extension updates, because the version is in the
+    folder name.
+  - Write confirmations are OFF by default in this version, so back up the
+    project folder before edits.
+  - It edits the model only (measures, relationships, tables), not report
+    visuals.
+  - Power BI Desktop must have `powerbi/dermatology.pbip` open.
+    - Its port changes every time Desktop restarts, so reconnect with
+      `ListLocalInstances`.
+  - MCP edits don't mark the file as changed, so Ctrl+S does nothing.
+    Save with File → Save As over the same file instead, then check that
+    the file's timestamp on disk changed.
 - Scripts were tested on PostgreSQL 16 and 18.6. They use domains, generated
   columns and jsonb, which work on 12+.
 
@@ -62,9 +80,19 @@ README.md              question -> approach -> findings -> limitations
 data/dermatology.csv   raw Kaggle download, renamed. Never edit it.
 sql/00-06_*.sql        pipeline (below)
 excel/                 EDA workbook + BUILD_GUIDE.md (COUNTIFS tie-out)
-powerbi/               .pbix report + BUILD_GUIDE.md (model, DAX, pages)
+powerbi/
+  dermatology.pbip           Power BI Project: open this in Desktop
+  dermatology.SemanticModel/ model as TMDL text (tables, relationships, DAX)
+  dermatology.Report/        report as PBIR JSON (one file per page and visual)
+  BUILD_GUIDE.md             model, DAX, pages
+  backup/                    local safety copies (gitignored)
 docs/                  screenshots for the README
 ```
+
+The report is a Power BI Project (.pbip), not a .pbix, so the model and
+report are plain text that git can diff. `.pbi/cache.abf` (imported data)
+and `.pbi/localSettings.json` are gitignored, so after a fresh clone, open
+the .pbip and click Refresh to reload from the `derm` database.
 
 ## Running the pipeline
 
@@ -179,6 +207,49 @@ Done:
 
 1. Build the Power BI report (4 pages) from `powerbi/BUILD_GUIDE.md`. Check
    that DAX matches the SQL views at the default 50-point cutoff.
+   - Done by the owner:
+     - Step 1: 8 tables loaded and renamed; saved as `powerbi/dermatology.pbix`.
+     - Step 2: the 6 relationships, `fact_findings[disease_id]` hidden,
+       `age_band` sorted by `age_band_sort`, `feature_name` by `feature_id`.
+       Verified through the MCP on 2026-10-23 (count test: PSO 3,584 fact
+       rows, total 11,712).
+   - Done by Claude through the Modeling MCP (2026-10-23):
+     - Backup before edits: `powerbi/backup/dermatology_before_mcp.pbix`
+       (gitignored).
+     - `Sharp Gap` what-if table: `GENERATESERIES(0, 100, 5)`, column
+       `Sharp Gap` with the `ParameterMetadata` extended property, and the
+       measure `[Sharp Gap Value]` (SELECTEDVALUE, default 50).
+     - `_Measures` table (calculated, one hidden placeholder column) with
+       the 14 measures from BUILD_GUIDE section 3. They're in display
+       folders 1-4 by page and have descriptions.
+     - Validated against SQL: patients 112/61/72/49/52/20; Q1 profile and
+       Q5 atypical counts match exactly. PSO × thinning signature is 95.64
+       (SQL 95.6). Verdicts match `vw_q3_pair_summary` for all 15 pairs.
+       Biopsy-dependent pairs are 1 at 50 and 4 at 80.
+   - The owner saved the report as a Power BI Project:
+     `powerbi/dermatology.pbip`, with `dermatology.Report/` (PBIR: one JSON
+     file per page and visual) and `dermatology.SemanticModel/` (TMDL).
+     The .pbip is now the report in the repo. The stale model-only .pbix
+     was moved to `powerbi/backup/dermatology_model_only_stale.pbix`.
+   - Pages: built by Claude on 2026-10-23 at the owner's request (this
+     replaces the earlier "owner builds by hand" plan). Claude wrote the
+     PBIR JSON directly, and the owner checked every page against SQL in
+     Desktop.
+     - 5 pages: Overview, Signature heatmap, Disease detail (hidden
+       drill-through on `disease_name`), Look-alike pairs, Feature explorer.
+       Readable folder names, e.g. `pages/overview/visuals/overview-bar-patients/`.
+     - Disease colours (Okabe-Ito, colour-blind safe) are set per bar:
+       PSO #0072B2, SD #E69F00, LP #009E73, PR #CC79A7, CD #56B4E9,
+       PRP #D55E00.
+     - The heatmap has totals off. At the grand total, `Prevalence Others %`
+       is blank, so `Signature Strength` would show plain prevalence there.
+     - The red-flag table shows k = 1 and k = 2 together (column `k`).
+       BUILD_GUIDE's "synced min_score slicer" can't work: slicer sync
+       groups only sync across pages, not on one page.
+     - `Biopsy-Dependent Pairs` is blank (not 0) below a cutoff of 20.
+   - Editing PBIR files: close Desktop first. It doesn't watch files and
+     overwrites them on save. Backup before the pages:
+     `powerbi/backup/pbip_before_pages/`.
 2. Add Power BI screenshots to `docs/` and the README. Paste the Kaggle URL
    into the README's dataset credit.
 3. Publish the repo to GitHub.

@@ -1,0 +1,81 @@
+table patients
+	lineageTag: 0361af56-4998-40c5-9046-db8df9e503ad
+
+	column patient_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 50ce3a49-587c-4611-8746-4dc03ed24ca4
+		summarizeBy: none
+		sourceColumn: patient_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b02b75fb-2369-4c65-9c5c-7d1740843176
+		summarizeBy: none
+		sourceColumn: disease_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column age
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d77c8fe-6cd0-4569-844c-a6421aa02f90
+		summarizeBy: sum
+		sourceColumn: age
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_band
+		dataType: string
+		lineageTag: 58fa3e12-8b04-4859-bf96-1f75023ee727
+		summarizeBy: none
+		sourceColumn: age_band
+		sortByColumn: age_band_sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_band_sort
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: bff23689-f760-4698-86a3-9ef8a4f6b9e5
+		summarizeBy: sum
+		sourceColumn: age_band_sort
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_note
+		dataType: string
+		lineageTag: 6cb5cd85-8740-4a0e-8579-30b8a055e0d3
+		summarizeBy: none
+		sourceColumn: age_note
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_family_history
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ebdbc48-54b5-4377-ad9f-69fbb99508ad
+		summarizeBy: sum
+		sourceColumn: has_family_history
+
+		annotation SummarizationSetBy = Automatic
+
+	partition patients = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("localhost", "derm"),
+				  #"Navigation 1" = Source{[Schema = "analytics", Item = "patients"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

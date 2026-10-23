@@ -7,10 +7,12 @@ pgpass.conf
 ~$*
 *.tmp
 
-# Power BI: commit the .pbix itself, not caches or local settings
-# (these paths apply if the report is ever saved as a .pbip project)
+# Power BI: the report is a .pbip project. Commit its text files, not the
+# imported-data cache or per-user settings (Refresh in Desktop rebuilds the cache)
 **/.pbi/localSettings.json
 **/.pbi/cache.abf
+# Local safety copies made before model edits through the MCP server
+powerbi/backup/
 
 # Editor and OS clutter
 .vscode/
@@ -20,3 +22,6 @@ desktop.ini
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# MCP server registration: machine-specific path to the Power BI Modeling MCP server
+.mcp.json

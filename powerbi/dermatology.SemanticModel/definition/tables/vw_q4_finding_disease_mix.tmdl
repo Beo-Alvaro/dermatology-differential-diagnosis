@@ -1,0 +1,94 @@
+table vw_q4_finding_disease_mix
+	lineageTag: 045ebd65-1477-4923-9c04-e11e58882f20
+
+	column min_score
+		dataType: int64
+		formatString: 0
+		lineageTag: 10e5e9e4-b157-4610-beaa-e194faec7547
+		summarizeBy: sum
+		sourceColumn: min_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ea57047-ff81-4f32-836c-b1826b2ff04d
+		summarizeBy: none
+		sourceColumn: feature_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_name
+		dataType: string
+		lineageTag: 8aa7198a-6680-4922-8d4a-6a562206eb87
+		summarizeBy: none
+		sourceColumn: feature_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_group
+		dataType: string
+		lineageTag: 2c7aea47-76a8-47f8-ac0e-6a29b5bd1093
+		summarizeBy: none
+		sourceColumn: feature_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 8e9d70e9-9076-4130-9dbd-203712ccd9a8
+		summarizeBy: sum
+		sourceColumn: disease_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_name
+		dataType: string
+		lineageTag: 65bf23b3-e8b1-46a8-8a3f-8797efd03fc9
+		summarizeBy: none
+		sourceColumn: disease_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column n_patients
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ae68ad4-8a2f-4247-92c7-f83079560c1f
+		summarizeBy: sum
+		sourceColumn: n_patients
+
+		annotation SummarizationSetBy = Automatic
+
+	column n_with_finding
+		dataType: double
+		lineageTag: 92f6eea5-05a3-413a-a237-826c46cf9e4c
+		summarizeBy: sum
+		sourceColumn: n_with_finding
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column share_pct
+		dataType: double
+		lineageTag: 02d009a1-b156-40c5-9f25-fcc1062549b2
+		summarizeBy: sum
+		sourceColumn: share_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition vw_q4_finding_disease_mix = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("localhost", "derm"),
+				  #"Navigation 1" = Source{[Schema = "analytics", Item = "vw_q4_finding_disease_mix"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

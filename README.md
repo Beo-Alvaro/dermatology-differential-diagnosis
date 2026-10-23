@@ -69,6 +69,12 @@ All 14 checks must say PASS. If any check fails, the script raises an error and 
 
 **Independent check in Excel:** `excel/dermatology_eda.xlsx` recomputes the prevalence grid and the Q1 profile from the raw CSV using only Excel formulas (COUNTIFS, XLOOKUP, MEDIAN(IF)). All 224 prevalence cells match SQL exactly, and its `tieout` sheet says PASS. See [excel/BUILD_GUIDE.md](excel/BUILD_GUIDE.md).
 
+**Power BI report:** open `powerbi/dermatology.pbip` in Power BI Desktop and click **Refresh** to load the data from the `derm` database. The report is saved as a Power BI Project, so it is plain text:
+- the model (relationships and DAX measures) is TMDL in [`powerbi/dermatology.SemanticModel/`](powerbi/dermatology.SemanticModel/definition/);
+- each page and visual is a JSON file in `powerbi/dermatology.Report/`.
+
+See [powerbi/BUILD_GUIDE.md](powerbi/BUILD_GUIDE.md) for the model, the measures and the pages.
+
 ---
 
 ## Metric definitions
@@ -196,7 +202,11 @@ CLAUDE.md               project notes and conventions
 data/dermatology.csv    raw Kaggle download (never edited)
 sql/                    00_run_all.sql + pipeline scripts 01-06
 excel/                  EDA workbook + build guide
-powerbi/                .pbix report + build guide (DAX measures)
+powerbi/
+  dermatology.pbip            Power BI Project (open this)
+  dermatology.SemanticModel/  model: tables, relationships, DAX (TMDL)
+  dermatology.Report/         5 report pages, one JSON file per visual (PBIR)
+  BUILD_GUIDE.md              model, DAX measures, page layout
 docs/                   screenshots
 ```
 

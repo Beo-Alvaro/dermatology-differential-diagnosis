@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "pairs-card-biopsy-dependent",
+  "position": {
+    "x": 600,
+    "y": 150,
+    "z": 2,
+    "height": 120,
+    "width": 400,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Biopsy-Dependent Pairs"
+                }
+              },
+              "queryRef": "_Measures.Biopsy-Dependent Pairs",
+              "nativeQueryRef": "Biopsy-Dependent Pairs"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

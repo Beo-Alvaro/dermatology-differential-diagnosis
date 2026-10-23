@@ -1,0 +1,24 @@
+/// What-if parameter: the gap (in percentage points) a finding needs between two diseases to count as sharp. Default 50.
+table 'Sharp Gap'
+	lineageTag: 760a7aca-54c8-41be-8938-f5be07d763aa
+
+	/// The cutoff picked on the Sharp Gap slider. Falls back to 50 when nothing (or more than one value) is selected.
+	measure 'Sharp Gap Value' = SELECTEDVALUE ( 'Sharp Gap'[Sharp Gap], 50 )
+		formatString: 0
+		lineageTag: cc11a798-2dd7-4cee-ac41-94d428e87933
+
+	column 'Sharp Gap'
+		formatString: 0
+		lineageTag: c956c8af-fb1d-40c9-9846-b9897247d6a1
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+	partition 'Sharp Gap' = calculated
+		mode: import
+		source = GENERATESERIES ( 0, 100, 5 )
+

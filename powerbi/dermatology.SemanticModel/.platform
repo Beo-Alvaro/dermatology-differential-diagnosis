@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "dermatology"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "81e29d57-018e-4f79-8782-89026a6d46a8"
+  }
+}

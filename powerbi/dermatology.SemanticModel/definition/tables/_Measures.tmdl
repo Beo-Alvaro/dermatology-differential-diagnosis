@@ -1,0 +1,150 @@
+/// Holds all report measures. The single placeholder column is hidden, so Power BI shows this as a measure table.
+table _Measures
+	lineageTag: 25807033-34b2-4dbe-9c37-9ef50c341e4a
+
+	/// Number of patients in the current filter.
+	measure Patients = COUNTROWS ( patients )
+		formatString: #,0
+		displayFolder: 1 Overview
+		lineageTag: b99d74f9-8b1d-48ee-9c63-ff2ca827d288
+
+	/// Median age in years. MEDIAN skips blanks, so the 9 unknown ages are left out.
+	measure 'Median Age' = MEDIAN ( patients[age] )          -- MEDIAN skips blanks (unknown ages)
+		formatString: 0.0
+		displayFolder: 1 Overview
+		lineageTag: 0be4ce72-22c4-437c-a6fe-8949872b6089
+
+	/// Patients whose age is unknown (blank).
+	measure 'Unknown Ages' = CALCULATE ( COUNTROWS ( patients ), ISBLANK ( patients[age] ) )
+		formatString: #,0
+		displayFolder: 1 Overview
+		lineageTag: 7a70b606-94c7-4012-a02b-ed278bc636aa
+
+	/// Share of patients with a family history of the disease. The column is 0/1, so its average is the rate.
+	measure 'Family History %' = AVERAGE ( patients[has_family_history] )   -- 0/1 column, so the average is the rate
+		formatString: 0.0%
+		displayFolder: 1 Overview
+		lineageTag: 367cf1c9-493e-4744-b533-b4025e0a70f9
+
+	/// Share of patients in the current filter with the finding present (score >= 1).
+	measure 'Prevalence %' =
+			-- Prevalence: share of patients in the current filter with score >= 1.
+			AVERAGE ( fact_findings[is_present] )
+		formatString: 0.0%
+		displayFolder: 2 Signature heatmap
+		lineageTag: 0e4ba865-c275-4537-a725-64ffd9bbba0c
+
+	/// Prevalence among every patient NOT in the disease(s) currently in context.
+	measure 'Prevalence Others %' =
+			-- Prevalence among everyone NOT in the selected disease(s).
+			-- VALUES grabs the disease(s) currently on the row/column; REMOVEFILTERS
+			-- drops the disease filter, then the NOT IN filter keeps everyone else.
+			VAR CurrentDiseases = VALUES ( dim_disease[disease_id] )
+			RETURN
+			    CALCULATE (
+			        [Prevalence %],
+			        REMOVEFILTERS ( dim_disease ),
+			        NOT patients[disease_id] IN CurrentDiseases
+			    )
+		formatString: 0.0%
+		displayFolder: 2 Signature heatmap
+		lineageTag: 6aca3e3e-304c-4500-9bdc-d3d1df61e3b3
+
+	/// Prevalence in this disease minus prevalence in all other patients, in percentage points.
+	measure 'Signature Strength (pts)' = ( [Prevalence %] - [Prevalence Others %] ) * 100
+		formatString: 0.0
+		displayFolder: 2 Signature heatmap
+		lineageTag: a6871dfa-9d11-4cfa-949f-3dfc669dac9b
+
+	/// Share of the 10 clinical findings whose gap between the two diseases is at least the Sharp Gap slider value.
+	measure 'Sharp Clinical Share' =
+			-- Share of a group's findings whose gap clears the slider value.
+			-- Dividing by the group's own count normalizes 10 clinical vs 22 histo.
+			VAR Cutoff = [Sharp Gap Value]
+			RETURN
+			    DIVIDE (
+			        CALCULATE (
+			            COUNTROWS ( vw_q3_pair_feature_gaps ),
+			            vw_q3_pair_feature_gaps[feature_group] = "Clinical",
+			            vw_q3_pair_feature_gaps[gap_pts] >= Cutoff
+			        ),
+			        CALCULATE (
+			            COUNTROWS ( vw_q3_pair_feature_gaps ),
+			            vw_q3_pair_feature_gaps[feature_group] = "Clinical"
+			        )
+			    ) + 0                                                   -- + 0 shows 0% instead of blank
+		formatString: 0.0%
+		displayFolder: 3 Look-alike pairs
+		lineageTag: ef90958e-b99d-4011-a66c-13c4a352a980
+
+	/// Share of the 22 histopathological findings whose gap between the two diseases is at least the Sharp Gap slider value.
+	measure 'Sharp Histo Share' =
+			VAR Cutoff = [Sharp Gap Value]
+			RETURN
+			    DIVIDE (
+			        CALCULATE (
+			            COUNTROWS ( vw_q3_pair_feature_gaps ),
+			            vw_q3_pair_feature_gaps[feature_group] = "Histopathological",
+			            vw_q3_pair_feature_gaps[gap_pts] >= Cutoff
+			        ),
+			        CALCULATE (
+			            COUNTROWS ( vw_q3_pair_feature_gaps ),
+			            vw_q3_pair_feature_gaps[feature_group] = "Histopathological"
+			        )
+			    ) + 0
+		formatString: 0.0%
+		displayFolder: 3 Look-alike pairs
+		lineageTag: 48865a1b-f1aa-44c6-8ab0-4cafbdc64483
+
+	/// Sharp histo share minus sharp clinical share, in percentage points. High = the biopsy adds the most for this pair.
+	measure 'Biopsy Lift (pts)' = ( [Sharp Histo Share] - [Sharp Clinical Share] ) * 100
+		formatString: 0.0
+		displayFolder: 3 Look-alike pairs
+		lineageTag: d90a9dee-9de3-4484-9f5d-2e54a0f3bea5
+
+	/// Clinically separable if any clinical finding is sharp, else Biopsy-dependent if any histo finding is sharp, else Hard even with biopsy. Same rule as vw_q3_pair_summary, driven by the slider.
+	measure 'Pair Verdict' =
+			-- Same rule as vw_q3_pair_summary, but driven by the slider.
+			SWITCH (
+			    TRUE (),
+			    [Sharp Clinical Share] > 0, "Clinically separable",
+			    [Sharp Histo Share] > 0,    "Biopsy-dependent",
+			    "Hard even with biopsy"
+			)
+		displayFolder: 3 Look-alike pairs
+		lineageTag: 35dfc591-ee49-4984-a318-702a412b77e8
+
+	/// How many disease pairs get the verdict Biopsy-dependent at the current slider value.
+	measure 'Biopsy-Dependent Pairs' =
+			COUNTROWS (
+			    FILTER (
+			        VALUES ( vw_q3_pair_feature_gaps[pair_label] ),
+			        [Pair Verdict] = "Biopsy-dependent"
+			    )
+			)
+		formatString: 0
+		displayFolder: 3 Look-alike pairs
+		lineageTag: ee2a35ec-fae1-49c7-aeb2-b0a350204782
+
+	/// Patients missing at least one of their disease's top 3 signature findings.
+	measure 'Atypical Patients' = SUM ( vw_q5_patient_typicality[is_atypical] )
+		formatString: #,0
+		displayFolder: 4 Feature explorer
+		lineageTag: af0f5eb8-0677-4eae-8045-73791a428ee5
+
+	/// Share of patients who are atypical. The column is 0/1, so its average is the rate.
+	measure 'Atypical %' = AVERAGE ( vw_q5_patient_typicality[is_atypical] )
+		formatString: 0.0%
+		displayFolder: 4 Feature explorer
+		lineageTag: 37896cd9-ff9c-489c-905e-f991bb19f0f7
+
+	column Placeholder
+		isHidden
+		lineageTag: cb6ee295-08f8-438f-b308-ce0679b4de61
+		isNameInferred
+		sourceColumn: [Placeholder]
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW ( "Placeholder", BLANK () )
+

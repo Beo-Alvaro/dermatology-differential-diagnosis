@@ -1,0 +1,224 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "explorer-table-red-flags",
+  "position": {
+    "x": 1180,
+    "y": 150,
+    "z": 3,
+    "height": 520,
+    "width": 700,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_q4_red_flags"
+                    }
+                  },
+                  "Property": "min_score"
+                }
+              },
+              "queryRef": "vw_q4_red_flags.min_score",
+              "nativeQueryRef": "min_score",
+              "displayName": "k"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_q4_red_flags"
+                    }
+                  },
+                  "Property": "feature_name"
+                }
+              },
+              "queryRef": "vw_q4_red_flags.feature_name",
+              "nativeQueryRef": "feature_name",
+              "displayName": "Finding"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_q4_red_flags"
+                    }
+                  },
+                  "Property": "top_disease"
+                }
+              },
+              "queryRef": "vw_q4_red_flags.top_disease",
+              "nativeQueryRef": "top_disease",
+              "displayName": "Points to"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_q4_red_flags"
+                    }
+                  },
+                  "Property": "top_share_pct"
+                }
+              },
+              "queryRef": "vw_q4_red_flags.top_share_pct",
+              "nativeQueryRef": "top_share_pct",
+              "displayName": "Share %"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_q4_red_flags"
+                    }
+                  },
+                  "Property": "n_with_finding"
+                }
+              },
+              "queryRef": "vw_q4_red_flags.n_with_finding",
+              "nativeQueryRef": "n_with_finding",
+              "displayName": "Patients"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "vw_q4_red_flags"
+                  }
+                },
+                "Property": "min_score"
+              }
+            },
+            "direction": "Ascending"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "vw_q4_red_flags"
+                  }
+                },
+                "Property": "top_share_pct"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Red flags at k = 1 and k = 2 (one disease is at least 80%)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "red-flags-only",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_q4_red_flags"
+              }
+            },
+            "Property": "is_red_flag"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "r",
+              "Entity": "vw_q4_red_flags",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "r"
+                          }
+                        },
+                        "Property": "is_red_flag"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "1L"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

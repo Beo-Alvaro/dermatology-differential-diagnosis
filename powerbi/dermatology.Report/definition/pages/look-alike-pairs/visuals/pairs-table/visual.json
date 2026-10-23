@@ -1,0 +1,149 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "pairs-table",
+  "position": {
+    "x": 980,
+    "y": 300,
+    "z": 5,
+    "height": 750,
+    "width": 900,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_q3_pair_feature_gaps"
+                    }
+                  },
+                  "Property": "pair_label"
+                }
+              },
+              "queryRef": "vw_q3_pair_feature_gaps.pair_label",
+              "nativeQueryRef": "pair_label",
+              "displayName": "Pair"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Sharp Clinical Share"
+                }
+              },
+              "queryRef": "_Measures.Sharp Clinical Share",
+              "nativeQueryRef": "Sharp Clinical Share"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Sharp Histo Share"
+                }
+              },
+              "queryRef": "_Measures.Sharp Histo Share",
+              "nativeQueryRef": "Sharp Histo Share"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Biopsy Lift (pts)"
+                }
+              },
+              "queryRef": "_Measures.Biopsy Lift (pts)",
+              "nativeQueryRef": "Biopsy Lift (pts)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Pair Verdict"
+                }
+              },
+              "queryRef": "_Measures.Pair Verdict",
+              "nativeQueryRef": "Pair Verdict"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Biopsy Lift (pts)"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Pairs ranked by biopsy lift'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,62 @@
+table fact_findings
+	lineageTag: 86a82848-3486-4368-9d59-702bfb5f26cf
+
+	column patient_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e5594af8-d81a-40f7-b13e-389d5508361b
+		summarizeBy: none
+		sourceColumn: patient_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d38316e7-0f9b-425a-ad12-22b858bc2e86
+		summarizeBy: none
+		sourceColumn: feature_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: efa494da-4ae5-48c5-b134-06f90fd2bde4
+		summarizeBy: sum
+		sourceColumn: disease_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column score
+		dataType: int64
+		formatString: 0
+		lineageTag: c7563bb3-9e99-4218-8608-ee2cf3ab8ca8
+		summarizeBy: sum
+		sourceColumn: score
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_present
+		dataType: int64
+		formatString: 0
+		lineageTag: c1a91f69-f279-4183-9892-7f9360bdc617
+		summarizeBy: sum
+		sourceColumn: is_present
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_findings = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("localhost", "derm"),
+				  #"Navigation 1" = Source{[Schema = "analytics", Item = "fact_findings"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

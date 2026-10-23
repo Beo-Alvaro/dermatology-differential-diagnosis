@@ -1,0 +1,315 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "dim_disease.disease_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_disease",
+			          "ConceptualProperty": "disease_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Disease": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "patients.age_band": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "patients",
+			          "ConceptualProperty": "age_band"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Age band": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dim_feature.feature_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_feature",
+			          "ConceptualProperty": "feature_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Finding": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dim_feature.feature_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_feature",
+			          "ConceptualProperty": "feature_group"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Finding group": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Group": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_q3_pair_feature_gaps.pair_label": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_q3_pair_feature_gaps",
+			          "ConceptualProperty": "pair_label"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Pair": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sharp_gap.sharp_gap": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Sharp Gap",
+			          "ConceptualProperty": "Sharp Gap"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sharp gap cutoff (points)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_q4_finding_disease_mix.feature_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_q4_finding_disease_mix",
+			          "ConceptualProperty": "feature_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Finding": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_q4_finding_disease_mix.disease_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_q4_finding_disease_mix",
+			          "ConceptualProperty": "disease_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Disease": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_q4_finding_disease_mix.min_score": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_q4_finding_disease_mix",
+			          "ConceptualProperty": "min_score"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Minimum score counted (k)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_q4_red_flags.min_score": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_q4_red_flags",
+			          "ConceptualProperty": "min_score"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "k": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_q4_red_flags.feature_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_q4_red_flags",
+			          "ConceptualProperty": "feature_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Finding": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_q4_red_flags.top_disease": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_q4_red_flags",
+			          "ConceptualProperty": "top_disease"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Points to": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_q4_red_flags.top_share_pct": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_q4_red_flags",
+			          "ConceptualProperty": "top_share_pct"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Share %": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_q4_red_flags.n_with_finding": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_q4_red_flags",
+			          "ConceptualProperty": "n_with_finding"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Patients": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

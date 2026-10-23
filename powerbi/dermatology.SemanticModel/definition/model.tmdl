@@ -1,0 +1,30 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-PH
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["dim_disease","dim_feature","fact_findings","vw_q3_pair_feature_gaps","vw_q4_finding_disease_mix","vw_q4_red_flags","vw_q5_patient_typicality","patients"]
+
+annotation PBI_RemovedChildren = [{"remoteItemId":{"foreignKeyRelationship":{"fromTableLocalLineageTag":"86a82848-3486-4368-9d59-702bfb5f26cf","fromColumnLocalLineageTag":"efa494da-4ae5-48c5-b134-06f90fd2bde4","toTableLocalLineageTag":"b539b75f-28ce-4e0a-9b37-9fd6a83c8727","toColumnLocalLineageTag":"0755309b-eb46-4337-af2c-98d94429b59a"}},"objectType":"Relationship"}]
+
+annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
+
+ref table dim_disease
+ref table dim_feature
+ref table fact_findings
+ref table vw_q3_pair_feature_gaps
+ref table vw_q4_finding_disease_mix
+ref table vw_q4_red_flags
+ref table vw_q5_patient_typicality
+ref table patients
+ref table 'Sharp Gap'
+ref table _Measures
+
+ref cultureInfo en-US
+

@@ -1,0 +1,151 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 167.18736664041995,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 685.38994469124179,
+            "y": 60.312268373231092
+          },
+          "nodeIndex": "dim_disease",
+          "nodeLineageTag": "b539b75f-28ce-4e0a-9b37-9fd6a83c8727",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 82.358403072620888
+          },
+          "nodeIndex": "dim_feature",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 380.90333627077928,
+            "y": 67.126454373181417
+          },
+          "nodeIndex": "fact_findings",
+          "nodeLineageTag": "86a82848-3486-4368-9d59-702bfb5f26cf",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 486.37618188556735,
+            "y": 823.95067924648845
+          },
+          "nodeIndex": "vw_q3_pair_feature_gaps",
+          "nodeLineageTag": "29bf5f4b-8772-4be3-ab45-45f130c185a0",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 89.216628958899662,
+            "y": 854.62745284042057
+          },
+          "nodeIndex": "vw_q4_finding_disease_mix",
+          "nodeLineageTag": "045ebd65-1477-4923-9c04-e11e58882f20",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1427.1742386066842,
+            "y": 602.90910684923927
+          },
+          "nodeIndex": "vw_q4_red_flags",
+          "nodeLineageTag": "5d3097f8-03b2-449a-b3ed-f63a5ac6591e",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 927.34242703920836,
+            "y": 284.48366648232985
+          },
+          "nodeIndex": "vw_q5_patient_typicality",
+          "nodeLineageTag": "558a9b51-0a47-43a2-800a-95fb359a4b5d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 798.80242498953385,
+            "y": 580.02254243923369
+          },
+          "nodeIndex": "patients",
+          "nodeLineageTag": "0361af56-4998-40c5-9046-db8df9e503ad",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1661.1742386066842,
+            "y": 478.66440799650093
+          },
+          "nodeIndex": "Sharp Gap",
+          "nodeLineageTag": "760a7aca-54c8-41be-8938-f5be07d763aa",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1895.1742386066842,
+            "y": 465.26168169133848
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "25807033-34b2-4dbe-9c37-9ef50c341e4a",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 123.81318287356456,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

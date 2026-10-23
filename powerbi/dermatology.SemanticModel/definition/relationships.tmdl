@@ -1,0 +1,26 @@
+relationship bc2d7efa-dad0-f4d0-511b-2d6039fdf014
+	fromColumn: patients.disease_id
+	toColumn: dim_disease.disease_id
+
+relationship bad9ae61-050f-fea1-aa65-a935b264a103
+	fromColumn: fact_findings.patient_id
+	toColumn: patients.patient_id
+
+relationship 19813c43-a723-1567-3259-97d79f9cc43d
+	fromColumn: fact_findings.feature_id
+	toColumn: dim_feature.feature_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 28afb882-3dbf-097e-7ecd-63de92f95bfb
+	fromColumn: vw_q3_pair_feature_gaps.feature_id
+	toColumn: dim_feature.feature_id
+
+relationship 317e50f5-5d65-a8a7-63c8-8afe19c27736
+	fromColumn: vw_q4_finding_disease_mix.feature_id
+	toColumn: dim_feature.feature_id
+
+relationship 6007ee48-18de-0ccb-bb18-dada86b6ecbc
+	fromColumn: vw_q5_patient_typicality.disease_id
+	toColumn: dim_disease.disease_id
+

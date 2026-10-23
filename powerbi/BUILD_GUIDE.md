@@ -1,6 +1,6 @@
 # Power BI build guide
 
-How to build `powerbi/dermatology.pbix` (4 pages) on top of the `derm` database.
+How to build the report `powerbi/dermatology.pbip` (4 pages plus a drill-through page) on top of the `derm` database.
 Run `sql/00_run_all.sql` first so every table and view exists.
 
 ## 1. Connect (Import mode)
@@ -165,9 +165,25 @@ Formats: the `%` and `Share` measures are Percentage with 1 decimal place; the `
 ### Page 4: Feature explorer (Q4 + Q5)
 - Slicer: `vw_q4_finding_disease_mix[min_score]` (single select: 1 or 2)
 - 100% stacked bar: axis `feature_name`, legend `disease_name`, values `n_patients`
-- Table: `vw_q4_red_flags` filtered to `is_red_flag = 1`; columns `feature_name`, `top_disease`, `top_share_pct`, `n_with_finding`; add a `min_score` slicer synced with the one above
+- Table: `vw_q4_red_flags` filtered to `is_red_flag = 1`; columns `min_score` (shown as k), `feature_name`, `top_disease`, `top_share_pct`, `n_with_finding`, sorted by k then share. It shows k = 1 and k = 2 side by side. (`vw_q4_red_flags` has no relationship to the slicer's table, and slicer sync groups only sync across pages, so a second synced slicer on this page wouldn't follow the first.)
 - Bar chart: `dim_disease[disease_name]` × `Atypical %`
 
 ## 5. Finish
-- Use the same disease colors on every page (Format → Data colors), so psoriasis is always the same color.
-- Save as `powerbi/dermatology.pbix`, export each page to `docs/` as PNG for the README.
+- Use the same disease colors on every page (Format → Data colors), so psoriasis is always the same color. The report uses the colour-blind-safe Okabe-Ito palette:
+
+  | Disease | Color |
+  |---|---|
+  | Psoriasis | `#0072B2` |
+  | Seborrheic dermatitis | `#E69F00` |
+  | Lichen planus | `#009E73` |
+  | Pityriasis rosea | `#CC79A7` |
+  | Chronic dermatitis | `#56B4E9` |
+  | Pityriasis rubra pilaris | `#D55E00` |
+
+- Save as a **Power BI Project**: File → Save as → *Power BI project files (\*.pbip)* → `powerbi/dermatology.pbip`. Desktop writes three things:
+  - `dermatology.pbip`: the file you open.
+  - `dermatology.SemanticModel/`: the model as TMDL text. Every table, relationship and DAX measure is readable in the repo.
+  - `dermatology.Report/`: the report as PBIR JSON, one file per page and per visual, e.g. `definition/pages/overview/visuals/overview-bar-patients/visual.json`.
+- Git keeps the text files. `.pbi/cache.abf` (the imported data) and `.pbi/localSettings.json` are gitignored. After a fresh clone, run the SQL pipeline, open the .pbip and click **Refresh** to reload the data from `derm`.
+- If you edit the JSON or TMDL files directly, close Desktop first. It doesn't notice changes on disk and overwrites them when it saves.
+- Export each page to `docs/` as PNG for the README.

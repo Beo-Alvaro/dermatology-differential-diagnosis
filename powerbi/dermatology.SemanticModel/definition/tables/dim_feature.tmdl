@@ -1,0 +1,50 @@
+table dim_feature
+	lineageTag: b5c20851-8102-4590-a32b-cdf7121f57ee
+
+	column feature_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e7764096-a47f-443b-8518-798563413d1d
+		summarizeBy: none
+		sourceColumn: feature_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_key
+		dataType: string
+		lineageTag: ab38d21c-93e5-4cbc-92e1-58ec87910886
+		summarizeBy: none
+		sourceColumn: feature_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_name
+		dataType: string
+		lineageTag: 0207b251-384c-46fc-9127-aece478a88e8
+		summarizeBy: none
+		sourceColumn: feature_name
+		sortByColumn: feature_id
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_group
+		dataType: string
+		lineageTag: 9ab3d94d-dc1b-44e6-a4d3-687646b552f7
+		summarizeBy: none
+		sourceColumn: feature_group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_feature = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("localhost", "derm"),
+				  #"Navigation 1" = Source{[Schema = "analytics", Item = "dim_feature"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

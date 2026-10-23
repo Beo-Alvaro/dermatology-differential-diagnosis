@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "dermatology"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "895e7f18-9b51-43d1-ae3b-7ff6c79925f8"
+  }
+}

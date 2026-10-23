@@ -1,0 +1,94 @@
+table vw_q4_red_flags
+	lineageTag: 5d3097f8-03b2-449a-b3ed-f63a5ac6591e
+
+	column min_score
+		dataType: int64
+		formatString: 0
+		lineageTag: f66cb206-54ec-40ec-aa70-e704300458ed
+		summarizeBy: sum
+		sourceColumn: min_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e4f99239-9c82-4169-bae6-61093714d3dd
+		summarizeBy: sum
+		sourceColumn: feature_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_name
+		dataType: string
+		lineageTag: e9948653-b3ac-4976-91de-791c44125aee
+		summarizeBy: none
+		sourceColumn: feature_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_group
+		dataType: string
+		lineageTag: a8d3d107-33c2-4a72-aa56-5d1cd0ac395a
+		summarizeBy: none
+		sourceColumn: feature_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column n_with_finding
+		dataType: double
+		lineageTag: 4fef9d32-ab58-496a-aba9-c649c3fcb7a7
+		summarizeBy: sum
+		sourceColumn: n_with_finding
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column top_disease
+		dataType: string
+		lineageTag: 83f3f36d-24c0-4871-ada0-5bfce6959d0b
+		summarizeBy: none
+		sourceColumn: top_disease
+
+		annotation SummarizationSetBy = Automatic
+
+	column n_top_disease
+		dataType: int64
+		formatString: 0
+		lineageTag: 459b63d8-f7ae-441d-b2d1-8b1e998b1bb9
+		summarizeBy: sum
+		sourceColumn: n_top_disease
+
+		annotation SummarizationSetBy = Automatic
+
+	column top_share_pct
+		dataType: double
+		lineageTag: 557802a5-43c4-4e55-ae34-f88f251bbb7d
+		summarizeBy: sum
+		sourceColumn: top_share_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_red_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: 536975bd-3dc6-4b91-8bb2-447ac88240cb
+		summarizeBy: sum
+		sourceColumn: is_red_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vw_q4_red_flags = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("localhost", "derm"),
+				  #"Navigation 1" = Source{[Schema = "analytics", Item = "vw_q4_red_flags"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

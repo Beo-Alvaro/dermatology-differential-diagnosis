@@ -1,0 +1,129 @@
+table vw_q3_pair_feature_gaps
+	lineageTag: 29bf5f4b-8772-4be3-ab45-45f130c185a0
+
+	column pair_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d49b6615-028a-4fed-8f40-d559eb8e483e
+		summarizeBy: sum
+		sourceColumn: pair_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pair_label
+		dataType: string
+		lineageTag: 491400e5-2a04-4b87-94d4-cf8f1fdc0c4a
+		summarizeBy: none
+		sourceColumn: pair_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_a_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4e2789c6-2e3d-457c-9d02-ff7098c6b0dc
+		summarizeBy: sum
+		sourceColumn: disease_a_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_a
+		dataType: string
+		lineageTag: b221aa27-c55a-4ea7-ad67-aafcf2494717
+		summarizeBy: none
+		sourceColumn: disease_a
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_b_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b4b2544a-67ee-4fe3-afce-b9a8ffc95a50
+		summarizeBy: sum
+		sourceColumn: disease_b_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_b
+		dataType: string
+		lineageTag: 95cc342b-df04-42f4-a990-2f5f2d823bc2
+		summarizeBy: none
+		sourceColumn: disease_b
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7ee2c45f-c396-4555-9b02-7d93632ae80c
+		summarizeBy: none
+		sourceColumn: feature_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_name
+		dataType: string
+		lineageTag: 4beefe11-c28f-49b6-b515-211323f64657
+		summarizeBy: none
+		sourceColumn: feature_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column feature_group
+		dataType: string
+		lineageTag: b8d3001e-bf38-44cd-ac1f-015218f8a002
+		summarizeBy: none
+		sourceColumn: feature_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column prevalence_a_pct
+		dataType: double
+		lineageTag: 444011f7-de1d-45a2-9dae-e6b8833b7a5a
+		summarizeBy: sum
+		sourceColumn: prevalence_a_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column prevalence_b_pct
+		dataType: double
+		lineageTag: efc9dbb2-6388-45db-89bf-8f1414f078d0
+		summarizeBy: sum
+		sourceColumn: prevalence_b_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gap_pts
+		dataType: double
+		lineageTag: b016a247-7c07-43b2-9170-33afc383f260
+		summarizeBy: sum
+		sourceColumn: gap_pts
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_sharp
+		dataType: int64
+		formatString: 0
+		lineageTag: f272ac3f-1e7c-4249-80cb-7fb850b50d4c
+		summarizeBy: sum
+		sourceColumn: is_sharp
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vw_q3_pair_feature_gaps = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("localhost", "derm"),
+				  #"Navigation 1" = Source{[Schema = "analytics", Item = "vw_q3_pair_feature_gaps"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+

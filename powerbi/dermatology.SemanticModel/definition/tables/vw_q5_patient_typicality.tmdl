@@ -1,0 +1,58 @@
+table vw_q5_patient_typicality
+	lineageTag: 558a9b51-0a47-43a2-800a-95fb359a4b5d
+
+	column patient_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 146b2116-6ed0-4e05-b0aa-b869a684ad9f
+		summarizeBy: sum
+		sourceColumn: patient_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 5919a91e-c7b0-41f0-b5c6-6696e882faa5
+		summarizeBy: none
+		sourceColumn: disease_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column disease_name
+		dataType: string
+		lineageTag: dcefb81f-66b7-4f18-8195-7ffa6d82932c
+		summarizeBy: none
+		sourceColumn: disease_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column top3_present
+		dataType: int64
+		formatString: 0
+		lineageTag: b33141fe-f5bd-4446-962a-69b9074d9932
+		summarizeBy: sum
+		sourceColumn: top3_present
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_atypical
+		dataType: int64
+		formatString: 0
+		lineageTag: acfac244-bbab-47cf-bb90-b5f8487fda26
+		summarizeBy: sum
+		sourceColumn: is_atypical
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vw_q5_patient_typicality = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("localhost", "derm"),
+				  #"Navigation 1" = Source{[Schema = "analytics", Item = "vw_q5_patient_typicality"]}[Data]
+				in
+				  #"Navigation 1"
+
+	annotation PBI_ResultType = Table
+
