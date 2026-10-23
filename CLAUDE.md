@@ -263,7 +263,9 @@ Done:
      outside the repo.
    - The README shows look_alike_pairs at the top and one image per
      question, and links the PDF.
-   - Still to do: paste the Kaggle URL into the README's dataset credit.
+   - Kaggle URL added to the README credit:
+     https://www.kaggle.com/datasets/olcaybolat1/dermatology-dataset-classification
+     (source file `dermatology_database_1.csv`, renamed to `data/dermatology.csv`).
 3. GitHub: published 2026-10-23 as a public repo,
    https://github.com/Beo-Alvaro/dermatology-differential-diagnosis
    - gh CLI installed with winget, logged in as Beo-Alvaro.

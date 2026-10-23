@@ -226,6 +226,6 @@ docs/                   report screenshots (PNG) and the whole report as a PDF
 
 Ilter, N. & Guvenir, H. (1998). *Dermatology* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5FK5P
 
-Accessed via the Kaggle copy "Dermatology Dataset (Multi-class classification)" by olcaybolat1. <!-- TODO: paste the Kaggle page URL -->
+Accessed via the Kaggle copy ["Dermatology Dataset (Multi-class classification)"](https://www.kaggle.com/datasets/olcaybolat1/dermatology-dataset-classification) by olcaybolat1.
 
 Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
