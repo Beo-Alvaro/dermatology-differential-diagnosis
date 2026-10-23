@@ -37,8 +37,9 @@ table vw_q4_red_flags
 
 	column n_with_finding
 		dataType: double
+		formatString: 0
 		lineageTag: 4fef9d32-ab58-496a-aba9-c649c3fcb7a7
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: n_with_finding
 
 		annotation SummarizationSetBy = Automatic
@@ -64,8 +65,9 @@ table vw_q4_red_flags
 
 	column top_share_pct
 		dataType: double
+		formatString: 0.0
 		lineageTag: 557802a5-43c4-4e55-ae34-f88f251bbb7d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: top_share_pct
 
 		annotation SummarizationSetBy = Automatic

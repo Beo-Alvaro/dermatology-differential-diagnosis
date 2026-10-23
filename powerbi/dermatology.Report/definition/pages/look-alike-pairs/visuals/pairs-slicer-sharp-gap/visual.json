@@ -28,8 +28,8 @@
               },
               "queryRef": "Sharp Gap.Sharp Gap",
               "nativeQueryRef": "Sharp Gap",
-              "displayName": "Sharp gap cutoff (points)",
-              "active": true
+              "active": true,
+              "displayName": "Sharp gap cutoff (points)"
             }
           ]
         }
@@ -39,6 +39,13 @@
       "data": [
         {
           "properties": {
+            "numericStart": {
+              "expr": {
+                "Literal": {
+                  "Value": "50D"
+                }
+              }
+            },
             "mode": {
               "expr": {
                 "Literal": {
@@ -79,7 +86,7 @@
                         },
                         "Right": {
                           "Literal": {
-                            "Value": "50L"
+                            "Value": "50D"
                           }
                         }
                       }

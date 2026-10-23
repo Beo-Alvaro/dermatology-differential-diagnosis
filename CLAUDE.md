@@ -250,9 +250,25 @@ Done:
    - Editing PBIR files: close Desktop first. It doesn't watch files and
      overwrites them on save. Backup before the pages:
      `powerbi/backup/pbip_before_pages/`.
-2. Add Power BI screenshots to `docs/` and the README. Paste the Kaggle URL
-   into the README's dataset credit.
-3. Publish the repo to GitHub.
+   - PBIR gotcha: a single-value ("Single") slicer needs
+     `data.numericStart` (e.g. `'50D'`) to display its value. With only the
+     `general.filter` comparison, the filter applies but the slider shows
+     its minimum (0). Desktop writes both when you set the slider by hand.
+2. Screenshots: done 2026-10-23.
+   - The owner exports the report with File → Export → Export to PDF to
+     `docs/dermatology_report.pdf`.
+   - Claude renders each PDF page to `docs/*.png` (overview,
+     signature_heatmap, look_alike_pairs, feature_explorer), using Windows'
+     built-in PDF renderer (Windows.Data.Pdf) from a PowerShell script kept
+     outside the repo.
+   - The README shows look_alike_pairs at the top and one image per
+     question, and links the PDF.
+   - Still to do: paste the Kaggle URL into the README's dataset credit.
+3. GitHub: published 2026-10-23 as a public repo,
+   https://github.com/Beo-Alvaro/dermatology-differential-diagnosis
+   - gh CLI installed with winget, logged in as Beo-Alvaro.
+   - `excel/dermatology_eda.xlsx` has local changes the owner hasn't
+     committed, so GitHub has the earlier committed version.
 
 ## Conventions
 

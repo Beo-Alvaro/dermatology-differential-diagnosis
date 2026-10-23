@@ -14,6 +14,10 @@ This project explains the data rather than predicting it. There is no machine-le
 - **For psoriasis, the biopsy adds the most.** Psoriasis has near-perfect histopathological markers (thinning of the suprapapillary epidermis, clubbing of the rete ridges). Its best clinical clues (scalp, knee and elbow involvement) appear in about 80% of patients. If the bar for "sharp" rises to 80 points, three more psoriasis pairs become biopsy-dependent.
 - **Seborrheic dermatitis vs pityriasis rosea is the hardest pair, and the biopsy helps least there.** Only 3 of 32 findings differ by 50+ points, and only 1 of those 3 is histopathological. Both diseases have the same top signature (spongiosis), and neither has a single "red flag" finding.
 
+![Look-alike pairs page of the Power BI report: one dot per disease pair, sharp-gap slider at 50](docs/look_alike_pairs.png)
+
+*The headline page of the Power BI report. Each dot is a disease pair. Top-left means the biopsy separates the pair but the clinical exam doesn't. The whole report is also in [docs/dermatology_report.pdf](docs/dermatology_report.pdf).*
+
 ---
 
 ## The data
@@ -97,6 +101,8 @@ Prevalence is rounded to one decimal once, in the base view, and later numbers a
 ### 1. Who's in the data?
 *View: `vw_q1_disease_profile`, `vw_q1_age_bands`. Power BI page: Overview*
 
+![Overview page: patients by disease, age bands and disease profile](docs/overview.png)
+
 `ROLLUP` adds an "All patients" total row, and `PERCENTILE_CONT(0.5)` gives the median age.
 
 | Disease | Patients | % | Median age | Family history |
@@ -114,6 +120,8 @@ Pityriasis rubra pilaris is a juvenile group in this sample (ages 7–22), and h
 ### 2. What makes each disease distinctive, and which findings don't help?
 *View: `vw_q2_signature_strength`, `vw_q2_non_discriminators`. Power BI page: Signature heatmap*
 
+![Signature heatmap: signature strength for 32 findings by 6 diseases](docs/signature_heatmap.png)
+
 `RANK() OVER (PARTITION BY disease ORDER BY signature strength DESC)` ranks findings within each disease.
 
 | Disease | Strongest signature | Strength (pts) |
@@ -130,7 +138,7 @@ The rankings rediscover textbook markers: band-like infiltrate for lichen planus
 **Non-discriminators** are findings with the smallest spread in prevalence across the six diseases: erythema (3.8 pts), inflammatory mononuclear infiltrate (5.2), acanthosis (8.2) and scaling (11.5). Each is present in roughly 90% or more of every disease, so they confirm "skin disease" but don't narrow it down.
 
 ### 3. Headline: which pairs can be told apart clinically, and which need a biopsy?
-*View: `vw_q3_pair_feature_gaps` (480 rows), `vw_q3_pair_summary` (15 rows). Power BI page: Look-alike pairs*
+*View: `vw_q3_pair_feature_gaps` (480 rows), `vw_q3_pair_summary` (15 rows). Power BI page: Look-alike pairs (screenshot at the top)*
 
 A self-join of the prevalence view on itself gives 15 disease pairs × 32 findings. For each pair, the share of clinical findings (out of 10) and of histopathological findings (out of 22) with a sharp gap is normalized by group size, so histopathology isn't favoured just because it has more findings.
 
@@ -155,6 +163,8 @@ How the verdicts change with the cutoff:
 ### 4. Which findings point almost entirely to one disease?
 *View: `vw_q4_finding_disease_mix`, `vw_q4_red_flags`. Power BI page: Feature explorer*
 
+![Feature explorer: which diseases have each finding, red flags, and atypical patients](docs/feature_explorer.png)
+
 | Threshold | Red flags | Clinical | Histopathological |
 |---|---:|---:|---:|
 | Score ≥ 1 (present) | 15 | 3 | 12 |
@@ -166,7 +176,7 @@ How the verdicts change with the cutoff:
 - Sanity check: Munro microabscess points to psoriasis 97.5% of the time.
 
 ### 5. How many patients are atypical?
-*View: `vw_q5_patient_typicality`, `vw_q5_atypical_by_disease`. Power BI page: Feature explorer*
+*View: `vw_q5_patient_typicality`, `vw_q5_atypical_by_disease`. Power BI page: Feature explorer (bottom right of the screenshot above)*
 
 **55 of 366 patients (15.0%)** are missing at least one of their disease's top 3 signature findings.
 
@@ -207,12 +217,8 @@ powerbi/
   dermatology.SemanticModel/  model: tables, relationships, DAX (TMDL)
   dermatology.Report/         5 report pages, one JSON file per visual (PBIR)
   BUILD_GUIDE.md              model, DAX measures, page layout
-docs/                   screenshots
+docs/                   report screenshots (PNG) and the whole report as a PDF
 ```
-
-<!-- TODO: add Power BI screenshots once the report is built, e.g.
-![Look-alike pairs](docs/look_alike_pairs.png)
--->
 
 ---
 
